@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyCome — Project Roadmap & Tech Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0f0a;
+    --surface: #111811;
+    --border: #1e2e1e;
+    --green: #22c55e;
+    --green-dim: #16a34a;
+    --green-glow: rgba(34,197,94,0.15);
+    --amber: #f59e0b;
+    --blue: #3b82f6;
+    --pink: #f472b6;
+    --purple: #a78bfa;
+    --red: #ef4444;
+    --text: #e2f0e2;
+    --muted: #6b8c6b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(34,197,94,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34,197,94,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 60px 24px; position: relative; z-index: 1; }
+
+  /* HEADER */
+  header { text-align: center; margin-bottom: 80px; }
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--green);
+    background: var(--green-glow);
+    border: 1px solid rgba(34,197,94,0.3);
+    padding: 6px 16px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: clamp(42px, 7vw, 72px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  h1 span { color: var(--green); }
+  .subtitle {
+    font-size: 16px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  /* SECTION TITLES */
+  .section-title {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green);
+    border-left: 3px solid var(--green);
+    padding-left: 12px;
+    margin-bottom: 28px;
+  }
+
+  /* TECH MAP TABLE */
+  .tech-section { margin-bottom: 80px; }
+  .tech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  @media (max-width: 640px) { .tech-grid { grid-template-columns: 1fr; } }
+
+  .tech-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: default;
+  }
+  .tech-card:hover { border-color: var(--green); background: rgba(34,197,94,0.04); }
+
+  .tech-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .tech-info { flex: 1; }
+  .tech-name {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    margin-bottom: 2px;
+  }
+  .tech-purpose {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.5;
+  }
+  .tech-badge {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+
+  .badge-backend { background: rgba(59,130,246,0.15); color: var(--blue); border: 1px solid rgba(59,130,246,0.3); }
+  .badge-db { background: rgba(245,158,11,0.15); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+  .badge-frontend { background: rgba(167,139,250,0.15); color: var(--purple); border: 1px solid rgba(167,139,250,0.3); }
+  .badge-devops { background: rgba(244,114,182,0.15); color: var(--pink); border: 1px solid rgba(244,114,182,0.3); }
+
+  /* LAYER COLORS */
+  .icon-backend { background: rgba(59,130,246,0.1); }
+  .icon-db { background: rgba(245,158,11,0.1); }
+  .icon-frontend { background: rgba(167,139,250,0.1); }
+  .icon-devops { background: rgba(244,114,182,0.1); }
+
+  /* ARCHITECTURE DIAGRAM */
+  .arch-section { margin-bottom: 80px; }
+  .arch-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .arch-layer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0;
+  }
+  .arch-box {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .arch-box.highlight { border-color: rgba(34,197,94,0.5); background: rgba(34,197,94,0.05); }
+  .arch-label { font-size: 14px; font-weight: 700; }
+  .arch-items { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+  .arch-arrow {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 56px;
+    margin: 2px 0;
+  }
+  .arch-arrow span {
+    font-size: 22px;
+    color: var(--green);
+    line-height: 1;
+  }
+  .arch-side {
+    width: 44px;
+    text-align: center;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  /* ROADMAP */
+  .roadmap-section { margin-bottom: 80px; }
+  .phase {
+    position: relative;
+    margin-bottom: 10px;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px 6px 0 0;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .phase-header:hover { border-color: var(--green); }
+
+  .phase-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .phase-title { font-size: 16px; font-weight: 700; flex: 1; }
+  .phase-days {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .phase-body {
+    background: rgba(17,24,17,0.5);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    padding: 20px;
+  }
+
+  .step-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 13px;
+    color: #a8c4a8;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .step-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .step-output {
+    margin-top: 14px;
+    padding: 10px 14px;
+    background: var(--green-glow);
+    border-left: 3px solid var(--green);
+    border-radius: 0 4px 4px 0;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--green);
+  }
+
+  /* Phase colors */
+  .p1 .phase-num { background: rgba(59,130,246,0.15); color: var(--blue); }
+  .p1 .step-dot { background: var(--blue); }
+  .p2 .phase-num { background: rgba(244,114,182,0.15); color: var(--pink); }
+  .p2 .step-dot { background: var(--pink); }
+  .p3 .phase-num { background: rgba(245,158,11,0.15); color: var(--amber); }
+  .p3 .step-dot { background: var(--amber); }
+  .p4 .phase-num { background: rgba(34,197,94,0.15); color: var(--green); }
+  .p4 .step-dot { background: var(--green); }
+  .p5 .phase-num { background: rgba(167,139,250,0.15); color: var(--purple); }
+  .p5 .step-dot { background: var(--purple); }
+  .p6 .phase-num { background: rgba(239,68,68,0.15); color: var(--red); }
+  .p6 .step-dot { background: var(--red); }
+  .p7 .phase-num { background: rgba(34,197,94,0.2); color: var(--green); border: 1px solid var(--green); }
+  .p7 .step-dot { background: var(--green); }
+
+  /* TOOLS TABLE */
+  .tools-section { margin-bottom: 60px; }
+  .tools-table { width: 100%; border-collapse: collapse; }
+  .tools-table th {
+    text-align: left;
+    padding: 10px 16px;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .tools-table td {
+    padding: 12px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(30,46,30,0.6);
+    vertical-align: top;
+  }
+  .tools-table tr:last-child td { border-bottom: none; }
+  .tools-table tr:hover td { background: rgba(34,197,94,0.03); }
+  .tool-name {
+    font-weight: 700;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .tool-cat {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .tool-desc { font-size: 12px; color: var(--muted); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+  .footer-logo { font-size: 20px; font-weight: 800; color: var(--green); font-family: 'Syne', sans-serif; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="tag">// PROJECT GUIDE v1.0</div>
+    <h1>Easy<span>Come</span></h1>
+    <p class="subtitle">Morocco Tourism Platform — Tech Map & Build Roadmap</p>
+  </header>
+
+  <!-- TECH MAP -->
+  <section class="tech-section">
+    <div class="section-title">01 — Technology Map</div>
+    <div class="tech-grid">
+
+      <!-- BACKEND -->
+      <div class="tech-card">
+        <div class="tech-icon icon-backend">⚙️</div>
+        <div class="tech-info">
+          <div class="tech-name">Spring Boot 3.x</div>
+          <div class="tech-purpose">Core backend framework — REST APIs, server logic, auto-config</div>
+        </div>
+        <div class="tech-badge badge-backend">BACKEND</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon icon-backend">🛡️</div>
+        <div class="tech-info">
+          <div class="tech-name">Spring Security + JWT</div>
+          <div class="tech-purpose">User login, roles (USER/ADMIN), protect all routes</div>
+        </div>
+        <div class="tech-badge badge-backend">BACKEND</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon icon-backend">🗄️</div>
+        <div class="tech-info">
+          <div class="tech-name">Spring Data JPA</div>
+          <div class="tech-purpose">Connect Java models to PostgreSQL, handle all DB queries</div>
+        </div>
+        <div class="tech-badge badge-backend">BACKEND</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon icon-backend">✅</div>
+        <div class="tech-info">
+          <div class="tech-name">Spring Validation</div>
+          <div class="tech-purpose">Validate input — no empty fields, correct email format, etc.</div>
+        </div>
+        <div class="tech-badge badge-backend">BACKEND</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon icon-backend">📊</div>
+        <div class="tech-info">
+          <div class="tech-name">Spring Actuator</div>
+          <div class="tech-purpose">Monitor app health: /actuator/health, /actuator/metrics</div>
+        </div>
+        <div class="tech-badge badge-backend">BACKEND</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon icon-backend">🪄</div>
+        <div class="tech-info">
+          <div class="tech-name">Lombok</div>
+          <div class="tech-purpose">Auto-generate getters, setters, constructors — less code</div>
+        </div>
+        <div class="tech-badge badge-backend">BACKEND</div>
+      </div>
+
+      <!-- DATABASE -->
+      <div class="tech-card">
+        <div class="tech-icon icon-db">🐘</div>
+        <div class="tech-info">
+          <div class="tech-name">PostgreSQL</div>
+          <div class="tech-purpose">Main database — stores users, hotels, bookings, expenses</div>
+        </div>
+        <div class="tech-badge badge-db">DATABASE</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon icon-db">⚡</div>
+        <div class="tech-info">
+          <div class="tech-name">Redis</div>
+          <div class="tech-purpose">Caching frequent queries — faster hotel search results</div>
+        </div>
+        <div class="tech-badge badge-db">DATABASE</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon icon-db">🔍</div>
+        <div class="tech-info">
+          <div class="tech-name">Elasticsearch</div>
+          <div class="tech-purpose">Smart full-text search — "hotels in Marrakech under 500 MAD"</div>
+        </div>
+        <div class="tech-badge badge-db">DATABASE</div>
+      </div>
+
+      <!-- FRONTEND -->
+      <div class="tech-card">
+        <div class="tech-icon icon-frontend">🌿</div>
+        <div class="tech-info">
+          <div class="tech-name">Thymeleaf</div>
+          <div class="tech-purpose">MVP frontend — server-rendered HTML pages with Spring Boot</div>
+        </div>
+        <div class="tech-badge badge-frontend">FRONTEND</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon icon-frontend">⚛️</div>
+        <div class="tech-info">
+          <div class="tech-name">React + Next.js</div>
+          <div class="tech-purpose">Advanced UI phase — dynamic, fast, SEO-friendly single page app</div>
+        </div>
+        <div class="tech-badge badge-frontend">FRONTEND</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon icon-frontend">🎨</div>
+        <div class="tech-info">
+          <div class="tech-name">Tailwind CSS</div>
+          <div class="tech-purpose">Responsive, modern design — mobile and desktop ready</div>
+        </div>
+        <div class="tech-badge badge-frontend">FRONTEND</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon icon-frontend">📈</div>
+        <div class="tech-info">
+          <div class="tech-name">Chart.js</div>
+          <div class="tech-purpose">Visual expense breakdown — pie/doughnut charts for trip cost</div>
+        </div>
+        <div class="tech-badge badge-frontend">FRONTEND</div>
+      </div>
+
+      <!-- DEVOPS -->
+      <div class="tech-card">
+        <div class="tech-icon icon-devops">🐳</div>
+        <div class="tech-info">
+          <div class="tech-name">Docker + Compose</div>
+          <div class="tech-purpose">Containerize everything — run whole app with one command</div>
+        </div>
+        <div class="tech-badge badge-devops">DEVOPS</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon icon-devops">🔨</div>
+        <div class="tech-info">
+          <div class="tech-name">Maven</div>
+          <div class="tech-purpose">Build tool — manage all Java dependencies in pom.xml</div>
+        </div>
+        <div class="tech-badge badge-devops">DEVOPS</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon icon-devops">🧪</div>
+        <div class="tech-info">
+          <div class="tech-name">JUnit 5 + Mockito</div>
+          <div class="tech-purpose">Test services and APIs — catch bugs before deployment</div>
+        </div>
+        <div class="tech-badge badge-devops">DEVOPS</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section class="arch-section">
+    <div class="section-title">02 — Architecture Flow</div>
+    <div class="arch-flow">
+
+      <div class="arch-layer">
+        <div class="arch-side">USER</div>
+        <div class="arch-box highlight">
+          <span>🌐</span>
+          <div>
+            <div class="arch-label">Frontend</div>
+            <div class="arch-items">Thymeleaf (MVP) → React + Next.js (Advanced) · Tailwind CSS · Chart.js</div>
+          </div>
+        </div>
+      </div>
+      <div class="arch-arrow"><span>↓</span></div>
+
+      <div class="arch-layer">
+        <div class="arch-side">API</div>
+        <div class="arch-box">
+          <span>⚙️</span>
+          <div>
+            <div class="arch-label">Spring Boot API Layer</div>
+            <div class="arch-items">Spring MVC (Controllers) · Spring Security + JWT · Spring Validation</div>
+          </div>
+        </div>
+      </div>
+      <div class="arch-arrow"><span>↓</span></div>
+
+      <div class="arch-layer">
+        <div class="arch-side">LOGIC</div>
+        <div class="arch-box">
+          <span>🧠</span>
+          <div>
+            <div class="arch-label">Service Layer</div>
+            <div class="arch-items">ExpenseCalculatorService · BookingService · HotelService · UserService</div>
+          </div>
+        </div>
+      </div>
+      <div class="arch-arrow"><span>↓</span></div>
+
+      <div class="arch-layer">
+        <div class="arch-side">DATA</div>
+        <div class="arch-box">
+          <span>🗃️</span>
+          <div>
+            <div class="arch-label">Repository Layer (JPA)</div>
+            <div class="arch-items">HotelRepository · UserRepository · BookingRepository</div>
+          </div>
+        </div>
+      </div>
+      <div class="arch-arrow"><span>↓</span></div>
+
+      <div class="arch-layer">
+        <div class="arch-side">DB</div>
+        <div class="arch-box">
+          <span>💾</span>
+          <div>
+            <div class="arch-label">Database Layer</div>
+            <div class="arch-items">PostgreSQL (main) · Redis (cache, 10min TTL) · Elasticsearch (search)</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="roadmap-section">
+    <div class="section-title">03 — Build Roadmap (8h/day · ~12 Days)</div>
+
+    <div class="phase p1">
+      <div class="phase-header">
+        <div class="phase-num">01</div>
+        <div class="phase-title">Project Setup & Database</div>
+        <div class="phase-days">Days 1–2 · 16h</div>
+      </div>
+      <div class="phase-body">
+        <ul class="step-list">
+          <li class="step-item"><div class="step-dot"></div>Create Spring Boot project at start.spring.io — add all dependencies</li>
+          <li class="step-item"><div class="step-dot"></div>Set up PostgreSQL database (local or Docker)</li>
+          <li class="step-item"><div class="step-dot"></div>Write application.yml — DB URL, JPA config, server port 8080</li>
+          <li class="step-item"><div class="step-dot"></div>Set up Redis + Elasticsearch via docker-compose</li>
+          <li class="step-item"><div class="step-dot"></div>Create project folder structure: controller / service / repository / model / dto / security</li>
+        </ul>
+        <div class="step-output">✅ OUTPUT: Spring Boot starts, connects to PostgreSQL, Docker running</div>
+      </div>
+    </div>
+
+    <div class="phase p2">
+      <div class="phase-header">
+        <div class="phase-num">02</div>
+        <div class="phase-title">Authentication System (JWT)</div>
+        <div class="phase-days">Days 3–4 · 16h</div>
+      </div>
+      <div class="phase-body">
+        <ul class="step-list">
+          <li class="step-item"><div class="step-dot"></div>Create User model: id, username, email, password, role (USER/ADMIN)</li>
+          <li class="step-item"><div class="step-dot"></div>Build UserRepository + UserService</li>
+          <li class="step-item"><div class="step-dot"></div>Write JwtService: generateToken, validateToken, extractUsername</li>
+          <li class="step-item"><div class="step-dot"></div>Write JwtAuthenticationFilter (runs on every request)</li>
+          <li class="step-item"><div class="step-dot"></div>Configure SecurityConfig: permit /api/auth/**, protect everything else</li>
+          <li class="step-item"><div class="step-dot"></div>Create AuthController: POST /api/auth/register and POST /api/auth/login</li>
+          <li class="step-item"><div class="step-dot"></div>Test with Postman — get JWT token back</li>
+        </ul>
+        <div class="step-output">✅ OUTPUT: Users can register and login, receive JWT token</div>
+      </div>
+    </div>
+
+    <div class="phase p3">
+      <div class="phase-header">
+        <div class="phase-num">03</div>
+        <div class="phase-title">Core Data Models & APIs</div>
+        <div class="phase-days">Days 5–7 · 24h</div>
+      </div>
+      <div class="phase-body">
+        <ul class="step-list">
+          <li class="step-item"><div class="step-dot"></div>Create Hotel model: id, name, city, pricePerNight, rooms, rating, imageUrl, type</li>
+          <li class="step-item"><div class="step-dot"></div>Create Booking model: id, user, hotel, checkIn, checkOut, guests, totalPrice, status</li>
+          <li class="step-item"><div class="step-dot"></div>Create Cafe / Restaurant model (similar to Hotel)</li>
+          <li class="step-item"><div class="step-dot"></div>Build all Repositories with JPA</li>
+          <li class="step-item"><div class="step-dot"></div>Build Services with business logic (HotelService, BookingService)</li>
+          <li class="step-item"><div class="step-dot"></div>Build Controllers: GET/POST/PUT/DELETE for hotels and bookings</li>
+          <li class="step-item"><div class="step-dot"></div>Add Redis cache on hotel list: @Cacheable("hotels")</li>
+          <li class="step-item"><div class="step-dot"></div>Add Elasticsearch HotelSearchRepository for smart search</li>
+        </ul>
+        <div class="step-output">✅ OUTPUT: Full CRUD APIs for hotels + bookings, search + caching working</div>
+      </div>
+    </div>
+
+    <div class="phase p4">
+      <div class="phase-header">
+        <div class="phase-num">04</div>
+        <div class="phase-title">Expense Calculator</div>
+        <div class="phase-days">Day 8 · 8h</div>
+      </div>
+      <div class="phase-body">
+        <ul class="step-list">
+          <li class="step-item"><div class="step-dot"></div>Create TripRequest DTO: checkIn, checkOut, hotelId, foodPreference, transport, extras</li>
+          <li class="step-item"><div class="step-dot"></div>Create TripExpense DTO: totalCost, hotelCost, foodCost, transportCost, extrasCost</li>
+          <li class="step-item"><div class="step-dot"></div>Write ExpenseCalculatorService: sum all costs automatically</li>
+          <li class="step-item"><div class="step-dot"></div>Create endpoint: POST /api/calculator/calculate</li>
+          <li class="step-item"><div class="step-dot"></div>Test with Postman — verify total price calculation is correct</li>
+        </ul>
+        <div class="step-output">✅ OUTPUT: One API call returns full trip cost breakdown in MAD</div>
+      </div>
+    </div>
+
+    <div class="phase p5">
+      <div class="phase-header">
+        <div class="phase-num">05</div>
+        <div class="phase-title">Frontend MVP (Thymeleaf + Tailwind)</div>
+        <div class="phase-days">Days 9–10 · 16h</div>
+      </div>
+      <div class="phase-body">
+        <ul class="step-list">
+          <li class="step-item"><div class="step-dot"></div>Create Thymeleaf templates: home.html, hotels.html, booking.html, dashboard.html</li>
+          <li class="step-item"><div class="step-dot"></div>Add Tailwind CSS (CDN) to templates for styling</li>
+          <li class="step-item"><div class="step-dot"></div>Build hotel listing page with search + filter</li>
+          <li class="step-item"><div class="step-dot"></div>Build booking form page</li>
+          <li class="step-item"><div class="step-dot"></div>Build dashboard with expense calculator form</li>
+          <li class="step-item"><div class="step-dot"></div>Add Chart.js doughnut chart to show cost breakdown</li>
+          <li class="step-item"><div class="step-dot"></div>Add login/register pages connected to JWT auth</li>
+        </ul>
+        <div class="step-output">✅ OUTPUT: Fully working website — users can search, book, and calculate trip cost</div>
+      </div>
+    </div>
+
+    <div class="phase p6">
+      <div class="phase-header">
+        <div class="phase-num">06</div>
+        <div class="phase-title">Testing + Bug Fixing</div>
+        <div class="phase-days">Days 11–12 · 16h</div>
+      </div>
+      <div class="phase-body">
+        <ul class="step-list">
+          <li class="step-item"><div class="step-dot"></div>Write JUnit 5 tests for all services (ExpenseCalculatorService, HotelService)</li>
+          <li class="step-item"><div class="step-dot"></div>Use Mockito to mock repositories in tests</li>
+          <li class="step-item"><div class="step-dot"></div>Test all API endpoints with Postman collections</li>
+          <li class="step-item"><div class="step-dot"></div>Fix validation errors and edge cases</li>
+          <li class="step-item"><div class="step-dot"></div>Finalize Dockerfile + docker-compose.yml for full stack</li>
+          <li class="step-item"><div class="step-dot"></div>Run: docker-compose up — verify full system starts clean</li>
+        </ul>
+        <div class="step-output">✅ OUTPUT: MVP ready — tested, Dockerized, deployable</div>
+      </div>
+    </div>
+
+    <div class="phase p7">
+      <div class="phase-header">
+        <div class="phase-num">+</div>
+        <div class="phase-title">Phase 2: React/Next.js Frontend (after MVP)</div>
+        <div class="phase-days">+10 days</div>
+      </div>
+      <div class="phase-body">
+        <ul class="step-list">
+          <li class="step-item"><div class="step-dot"></div>Initialize Next.js project in frontend/ folder</li>
+          <li class="step-item"><div class="step-dot"></div>Migrate all pages to React components</li>
+          <li class="step-item"><div class="step-dot"></div>Connect to Spring Boot APIs via Axios</li>
+          <li class="step-item"><div class="step-dot"></div>Add Google Maps for hotel location pins</li>
+          <li class="step-item"><div class="step-dot"></div>Integrate Stripe payment checkout</li>
+        </ul>
+        <div class="step-output">🚀 OUTPUT: Airbnb-level platform ready for production</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- TOOLS TO INSTALL -->
+  <section class="tools-section">
+    <div class="section-title">04 — Tools to Install Before Starting</div>
+    <table class="tools-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Tool</th>
+          <th>Why</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tech-badge badge-backend">BACKEND</span></td>
+          <td><span class="tool-name">IntelliJ IDEA</span></td>
+          <td class="tool-desc">Best IDE for Spring Boot — free Community edition works</td>
+        </tr>
+        <tr>
+          <td><span class="tech-badge badge-backend">BACKEND</span></td>
+          <td><span class="tool-name">JDK 17 or 21</span></td>
+          <td class="tool-desc">Java runtime required for Spring Boot 3.x</td>
+        </tr>
+        <tr>
+          <td><span class="tech-badge badge-db">DATABASE</span></td>
+          <td><span class="tool-name">pgAdmin + PostgreSQL</span></td>
+          <td class="tool-desc">GUI to view your database tables and data</td>
+        </tr>
+        <tr>
+          <td><span class="tech-badge badge-devops">DEVOPS</span></td>
+          <td><span class="tool-name">Docker Desktop</span></td>
+          <td class="tool-desc">Runs Redis, Elasticsearch, and PostgreSQL in containers</td>
+        </tr>
+        <tr>
+          <td><span class="tech-badge badge-backend">TESTING</span></td>
+          <td><span class="tool-name">Postman</span></td>
+          <td class="tool-desc">Test your APIs before building the frontend</td>
+        </tr>
+        <tr>
+          <td><span class="tech-badge badge-frontend">FRONTEND</span></td>
+          <td><span class="tool-name">Node.js + npm</span></td>
+          <td class="tool-desc">Required for Next.js — install from nodejs.org</td>
+        </tr>
+        <tr>
+          <td><span class="tech-badge badge-devops">VERSIONING</span></td>
+          <td><span class="tool-name">Git + GitHub</span></td>
+          <td class="tool-desc">Save your code safely, go back if something breaks</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <div class="footer-logo">EasyCome</div>
+    Morocco Tourism Platform · Spring Boot + Next.js · Morocco World Cup 2030 Ready
+  </footer>
+
+</div>
+</body>
+</html>
